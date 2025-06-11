@@ -7,6 +7,8 @@
   --foreground: #171717;
   --highlight: rgba(0, 0, 0, 0.1);
   --dropDownGround: #ffffff;
+
+  --drop-list-max-height: 85vh;
 }
 
 .dark:root {
@@ -27,4 +29,19 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.scrollbar-button-hide::-webkit-scrollbar-track {
+  margin: 10px
+}
+
+.scrollbar-button-hide::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
+
+.scrollbar-button-hide::-webkit-scrollbar-thumb {
+  border-radius: 16px;
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3); */
+  background-color: #555;
 }
