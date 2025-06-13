@@ -2,19 +2,21 @@
 import RectangleButton from "@/components/RectangleButton";
 import RoundButton from "@/components/RoundButton";
 import ToggleSwitch from "@/components/ToggleSwitch";
+import GuideBarStatusContext from "@/contexts/GuideBarStatusContext";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-export default function AppBar() {
+export default function Toolbar() {
+	const ctx = useContext(GuideBarStatusContext);
 	const [showDropDown, setShowDropDown] = useState(false);
 
 
 	return (
-		<nav className="sticky top-0 px-5 h-14 flex flex-row justify-between z-10">
+		<nav className="sticky top-0 px-5 h-(--toolbar-height) flex flex-row justify-between z-10">
 			<div className="flex flex-row items-center justify-center gap-2.5">
 
-				<RoundButton className="h-10 w-10 hover:bg-(--highlight)">
+				<RoundButton className="h-10 w-10 hover:bg-(--highlight)" onClick={() => { ctx.setIsExpand(!ctx.isExpand); }}>
 					<Image className="dark:invert m-auto" src="/menu.svg" alt="menu icon" width={24} height={24} />
 				</RoundButton>
 

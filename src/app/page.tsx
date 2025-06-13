@@ -1,8 +1,35 @@
+"use client";
+import RectangleButton from "@/components/RectangleButton";
+import GuideBarStatusContext from "@/contexts/GuideBarStatusContext";
 import Image from "next/image";
+import { useContext } from "react";
 
 export default function Home() {
+  const guideCtx = useContext(GuideBarStatusContext);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="flex flex-row">
+      <GuideBar isExpand={guideCtx.isExpand} />
+      <Content className={guideCtx.isExpand ? "ml-(--guide-expand-width)" : "ml-(--guide-collapse-width)"} />
+    </div>
+  );
+}
+
+
+interface ContentProps {
+  className?: string;
+}
+
+function Content(props: ContentProps) {
+  const { className = "" } = props;
+
+  return (
+    <div className={
+      [
+        className,
+        "flex-1 grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]"
+      ].join(" ")
+    }>
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
@@ -99,5 +126,144 @@ export default function Home() {
         </a>
       </footer>
     </div>
+  );
+}
+
+interface GuideBarProps {
+  isExpand: boolean;
+}
+
+const guideConfig = {
+  user: [
+    { text: "History", icon: "/history.svg" },
+    { text: "Playlists", icon: "/playlist_play.svg" },
+    { text: "Your videos", icon: "/smart_display.svg" },
+    { text: "Watch later", icon: "/schedule.svg" },
+    { text: "Liked Video", icon: "/thumb_up.svg" },
+  ],
+  explorer: [
+    { text: "Trending", icon: "/mode_heat.svg" },
+    { text: "Music", icon: "/music_note.svg" },
+    { text: "Movies", icon: "/movie.svg" },
+    { text: "Live", icon: "/sensors.svg" },
+    { text: "Gaming", icon: "/sports_esports.svg" },
+    { text: "News", icon: "/newsmode.svg" },
+    { text: "Sports", icon: "/trophy.svg" },
+    { text: "Courses", icon: "/school.svg" },
+    { text: "Podcasts", icon: "/podcasts.svg" },
+  ],
+  tool: [
+    { text: "Settings", icon: "/settings.svg" },
+    { text: "Report history", icon: "/flag.svg" },
+    { text: "Help", icon: "/help.svg" },
+    { text: "Send feedback", icon: "/feedback.svg" },
+  ]
+};
+
+function GuideBar(props: GuideBarProps) {
+  const { isExpand } = props;
+
+  return (
+    <nav className={
+      [
+        (isExpand ? "w-(--guide-expand-width)" : "w-(--guide-collapse-width)"),
+        "fixed left-0 top-(--toolbar-height) bottom-0 bg-(--background) overflow-y-auto"
+      ].join(" ")}>
+      {
+        isExpand ?
+          <div className="flex flex-col w-full px-2.5 items-center divide-(--foreground) divide-y-1">
+            <div className="flex flex-col w-full py-2.5">
+              <RectangleButton className="w-full flex flex-row justify-start p-2.5 items-center hover:bg-(--highlight) rounded-xl gap-5">
+                <Image className="dark:invert" aria-hidden src="/home.svg" alt="home icon" width={24} height={24} />
+                <span>Home</span>
+              </RectangleButton>
+              <RectangleButton className="w-full flex flex-row justify-start p-2.5 items-center hover:bg-(--highlight) rounded-xl gap-5">
+                <Image className="dark:invert" aria-hidden src="/subscriptions.svg" alt="subscriptions icon" width={24} height={24} />
+                <span>Subscriptions</span>
+              </RectangleButton>
+            </div>
+            <div className="flex flex-col w-full py-2.5">
+              <RectangleButton className="w-full flex flex-row justify-start p-2.5 items-center hover:bg-(--highlight) rounded-xl gap-5">
+                <span>You</span>
+                <Image className="dark:invert" aria-hidden src="/chevron_right.svg" alt="chevron_right icon" width={24} height={24} />
+              </RectangleButton>
+              {
+                guideConfig.user.map((config) => {
+                  return (
+                    <RectangleButton key={`explore-${config.text}`} className="w-full flex flex-row justify-start p-2.5 items-center hover:bg-(--highlight) rounded-xl gap-5">
+                      <Image className="dark:invert" aria-hidden src={config.icon} alt={`icon-${config.text}`} width={24} height={24} />
+                      <span>{config.text}</span>
+                    </RectangleButton>
+                  );
+                })
+              }
+            </div>
+            <div className="flex flex-col w-full py-2.5">
+              <h1 className="font-bold p-2.5">Subscriptions</h1>
+
+            </div>
+            <div className="flex flex-col w-full py-2.5">
+              <h1 className="font-bold p-2.5">Explorer</h1>
+              {
+                guideConfig.explorer.map((config) => {
+                  return (
+                    <RectangleButton key={`explore-${config.text}`} className="w-full flex flex-row justify-start p-2.5 items-center hover:bg-(--highlight) rounded-xl gap-5">
+                      <Image className="dark:invert" aria-hidden src={config.icon} alt={`icon-${config.text}`} width={24} height={24} />
+                      <span>{config.text}</span>
+                    </RectangleButton>
+                  );
+                })
+              }
+            </div>
+            <div className="flex flex-col w-full py-2.5">
+              {
+                guideConfig.tool.map((config) => {
+                  return (
+                    <RectangleButton key={`explore-${config.text}`} className="w-full flex flex-row justify-start p-2.5 items-center hover:bg-(--highlight) rounded-xl gap-5">
+                      <Image className="dark:invert" aria-hidden src={config.icon} alt={`icon-${config.text}`} width={24} height={24} />
+                      <span>{config.text}</span>
+                    </RectangleButton>
+                  );
+                })
+              }
+            </div>
+            <div className="flex flex-col w-full py-2.5">
+              <div className="flex flex-row flex-wrap p-2.5 text-gray-400 text-[13px]">
+                <span className="[&:not(:last-child)]:mr-2.5">About</span>
+                <span className="[&:not(:last-child)]:mr-2.5">Press</span>
+                <span className="[&:not(:last-child)]:mr-2.5">Copyright</span>
+                <span className="[&:not(:last-child)]:mr-2.5">Contact us</span>
+                <span className="[&:not(:last-child)]:mr-2.5">Creators</span>
+                <span className="[&:not(:last-child)]:mr-2.5">Advertise</span>
+                <span className="[&:not(:last-child)]:mr-2.5">Developers</span>
+              </div>
+              <div className="flex flex-row flex-wrap p-2.5 text-gray-400 text-[13px]">
+                <span className="[&:not(:last-child)]:mr-2.5">Terms</span>
+                <span className="[&:not(:last-child)]:mr-2.5">Privacy</span>
+                <span className="[&:not(:last-child)]:mr-2.5">Policy & Safety</span>
+                <span className="[&:not(:last-child)]:mr-2.5">How XXX works</span>
+                <span className="[&:not(:last-child)]:mr-2.5">Test new features</span>
+              </div>
+              <div className="p-2.5 text-[13px] text-gray-600">© Copyright Here</div>
+            </div>
+          </div> :
+          <div className="flex flex-col w-full items-center">
+            <RectangleButton className="w-full aspect-square flex flex-col justify-center items-center hover:bg-(--highlight) rounded-2xl">
+              <Image className="dark:invert" aria-hidden src="/home.svg" alt="home icon" width={24} height={24} />
+              <span className=" text-(length:--guide-icon-font-size)">Home</span>
+            </RectangleButton>
+            <RectangleButton className="w-full aspect-square flex flex-col justify-center items-center hover:bg-(--highlight) rounded-2xl">
+              <Image className="dark:invert" aria-hidden src="/subscriptions.svg" alt="subscriptions icon" width={24} height={24} />
+              <span className=" text-(length:--guide-icon-font-size)">Subscriptions</span>
+            </RectangleButton>
+            <RectangleButton className="w-full aspect-square flex flex-col justify-center items-center hover:bg-(--highlight) rounded-2xl">
+              <Image className="dark:invert" aria-hidden src="/account_circle.svg" alt="account_circle icon" width={24} height={24} />
+              <span className=" text-(length:--guide-icon-font-size)">You</span>
+            </RectangleButton>
+          </div>
+      }
+
+
+    </nav>
   );
 }
