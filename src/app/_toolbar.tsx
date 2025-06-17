@@ -13,7 +13,7 @@ export default function Toolbar() {
 
 
 	return (
-		<nav className="sticky top-0 px-5 h-(--toolbar-height) flex flex-row justify-between z-10">
+		<nav className="sticky top-0 px-5 h-(--toolbar-height) flex flex-row justify-between bg-(--background) z-(--toolbar-z-index)">
 			<div className="flex flex-row items-center justify-center gap-2.5">
 
 				<RoundButton className="h-10 w-10 hover:bg-(--highlight)" onClick={() => { ctx.setIsExpand(!ctx.isExpand); }}>

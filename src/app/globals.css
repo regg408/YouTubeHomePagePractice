@@ -10,11 +10,15 @@
 
   --drop-list-max-height: 85vh;
 
-  --toolbar-height: 3.5rem;
+  --toolbar-height: 3.5rem; /* 14*/
 
   --guide-expand-width: 260px;
   --guide-collapse-width: 80px;
   --guide-icon-font-size: 10px;
+
+  --toolbar-z-index: 10;
+  --more-z-index: 9;
+  --tooltip-z-index: 9;
 }
 
 .dark:root {
