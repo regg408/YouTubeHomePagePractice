@@ -5,12 +5,26 @@ import ToggleSwitch from "@/components/ToggleSwitch";
 import GuideBarStatusContext from "@/contexts/GuideBarStatusContext";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import Link from "next/link";
+import { useContext, useEffect, useRef, useState } from "react";
 
 export default function Toolbar() {
 	const ctx = useContext(GuideBarStatusContext);
+	const ref = useRef<HTMLDivElement | null>(null);
 	const [showDropDown, setShowDropDown] = useState(false);
 
+	const handleClickOutside = (event: MouseEvent) => {
+		if (ref.current && !ref.current.contains(event.target as Node)) {
+			setShowDropDown(false);
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
 
 	return (
 		<nav className="sticky top-0 px-5 h-(--toolbar-height) flex flex-row justify-between bg-(--background) z-(--toolbar-z-index)">
@@ -20,7 +34,9 @@ export default function Toolbar() {
 					<Image className="dark:invert m-auto" src="/menu.svg" alt="menu icon" width={24} height={24} />
 				</RoundButton>
 
-				<Image className="dark:invert" src="/next.svg" alt="Next.js logo" width={180} height={38} />
+				<Link className="cursor-pointer" href="/">
+					<Image className="dark:invert" src="/next.svg" alt="Next.js logo" width={180} height={38} />
+				</Link>
 			</div>
 			<div className="flex flex-row justify-center">
 
@@ -33,9 +49,8 @@ export default function Toolbar() {
 
 			{
 				showDropDown &&
-				<SettingDropDown />
+				<SettingDropDown ref={ref} />
 			}
-
 		</nav>
 	);
 }
@@ -343,7 +358,12 @@ function LocationPanel(props: LocationPanelProps) {
 }
 //#endregion
 
-function SettingDropDown() {
+interface SettingDropDownProps {
+	ref: React.RefObject<HTMLDivElement | null>;
+}
+
+function SettingDropDown(props: SettingDropDownProps) {
+	const { ref } = props;
 	const { theme, setTheme } = useTheme();
 	const [panel, setPanel] = useState<PANEL>(PANEL.MENU);
 	const [language, setLanguage] = useState("English");
@@ -365,9 +385,8 @@ function SettingDropDown() {
 		}
 	};
 
-
 	return (
-		<div className="w-100 rounded-2xl fixed top-15 right-5 bg-(--dropDownGround) shadow-md overflow-y-auto max-h-(--drop-list-max-height) scrollbar-button-hide">
+		<div ref={ref} className="w-100 rounded-2xl fixed top-15 right-5 bg-(--dropDownGround) shadow-md overflow-y-auto max-h-(--drop-list-max-height) scrollbar-button-hide">
 			{switchPanel(panel)}
 		</div>
 	);
