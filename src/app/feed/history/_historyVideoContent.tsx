@@ -53,7 +53,6 @@ function ToolButton() {
 	const [showToolbar, setShowToolbar] = useState(false);
 
 	const handleClickOutside = (event: MouseEvent) => {
-		console.log(event);
 		if (ref.current && !ref.current.contains(event.target as Node)) {
 			setShowToolbar(false);
 		}
