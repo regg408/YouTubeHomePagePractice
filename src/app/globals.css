@@ -10,7 +10,8 @@
 
   --drop-list-max-height: 85vh;
 
-  --toolbar-height: 3.5rem; /* 14*/
+  --toolbar-height: 3.5rem;
+  /* 14*/
 
   --guide-expand-width: 260px;
   --guide-collapse-width: 80px;
@@ -54,4 +55,18 @@ body {
   border-radius: 16px;
   /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3); */
   background-color: #555;
+}
+
+.box {
+  display: -moz-box;
+  display: -webkit-box;
+  display: box;
+}
+
+.multiline-ellipsis { 
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
 }

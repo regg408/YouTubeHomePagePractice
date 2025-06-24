@@ -1,7 +1,7 @@
 "use client";
 import RectangleButton from "@/components/RectangleButton";
 import RoundButton from "@/components/RoundButton";
-import VideoPreview from "@/components/VideoPreview";
+import VideoPreviewRow from "@/components/VideoPreviewRow";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -16,7 +16,7 @@ export default function HistoryVideoContent(props: HistoryVideoContentProps) {
 	const { title = "Unknown", author = "Unknown", views = 0, content = "" } = props;
 	return (
 		<div className="w-[60%] flex flex-row gap-2.5">
-			<VideoPreview />
+			<VideoPreviewRow />
 			<div className="flex flex-col flex-1">
 				<div className="inline-flex flex-row w-full justify-between">
 					<h1 className="text-[30px]">{title}</h1>
