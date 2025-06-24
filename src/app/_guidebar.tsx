@@ -5,14 +5,15 @@ import Image from "next/image";
 import React, { useContext } from "react";
 
 interface GuideLinkProps extends React.PropsWithChildren {
+	className?: string;
 	href?: string;
 }
 
 function GuideLink(props: GuideLinkProps) {
-	const { href, children } = props;
+	const { className = "", href, children } = props;
 
 	return (
-		<a className="w-full flex flex-row justify-start p-2.5 items-center hover:bg-(--highlight) rounded-xl gap-5 cursor-pointer" href={href}>
+		<a className={[className, "w-full p-2.5 items-center hover:bg-(--highlight) rounded-xl cursor-pointer"].join(" ")} href={href}>
 			{children}
 		</a>
 	);
@@ -65,7 +66,7 @@ export default function GuideBar() {
 							{
 								guideConfig.main.map((config) => {
 									return (
-										<GuideLink key={`main-${config.text}`} href={config.href}>
+										<GuideLink key={`main-${config.text}`} className="flex flex-row justify-start gap-5" href={config.href}>
 											<Image className="dark:invert" aria-hidden src={config.icon} alt={`icon-${config.text}`} width={24} height={24} />
 											<span>{config.text}</span>
 										</GuideLink>
@@ -74,14 +75,14 @@ export default function GuideBar() {
 							}
 						</div>
 						<div className="flex flex-col w-full py-2.5">
-							<GuideLink href="/feed/you">
+							<GuideLink href="/feed/you" className="flex flex-row justify-start gap-5">
 								<span>You</span>
 								<Image className="dark:invert" aria-hidden src="/chevron_right.svg" alt="chevron_right icon" width={24} height={24} />
 							</GuideLink>
 							{
 								guideConfig.user.map((config) => {
 									return (
-										<GuideLink key={`user-${config.text}`} href={config.href}>
+										<GuideLink key={`user-${config.text}`} className="flex flex-row justify-start gap-5" href={config.href}>
 											<Image className="dark:invert" aria-hidden src={config.icon} alt={`icon-${config.text}`} width={24} height={24} />
 											<span>{config.text}</span>
 										</GuideLink>
@@ -98,7 +99,7 @@ export default function GuideBar() {
 							{
 								guideConfig.explore.map((config) => {
 									return (
-										<GuideLink key={`explore-${config.text}`} href={config.href}>
+										<GuideLink key={`explore-${config.text}`} className="flex flex-row justify-start gap-5" href={config.href}>
 											<Image className="dark:invert" aria-hidden src={config.icon} alt={`icon-${config.text}`} width={24} height={24} />
 											<span>{config.text}</span>
 										</GuideLink>
@@ -139,18 +140,18 @@ export default function GuideBar() {
 						</div>
 					</div> :
 					<div className="flex flex-col w-full items-center">
-						<RectangleButton className="w-full aspect-square flex flex-col justify-center items-center hover:bg-(--highlight) rounded-2xl">
+						<GuideLink className="w-full aspect-square flex flex-col gap-2.5 justify-center items-center hover:bg-(--highlight) rounded-2xl" href="/">
 							<Image className="dark:invert" aria-hidden src="/home.svg" alt="home icon" width={24} height={24} />
 							<span className=" text-(length:--guide-icon-font-size)">Home</span>
-						</RectangleButton>
-						<RectangleButton className="w-full aspect-square flex flex-col justify-center items-center hover:bg-(--highlight) rounded-2xl">
+						</GuideLink>
+						<GuideLink className="w-full aspect-square flex flex-col gap-2.5 justify-center items-center hover:bg-(--highlight) rounded-2xl" href="/feed/subscriptions">
 							<Image className="dark:invert" aria-hidden src="/subscriptions.svg" alt="subscriptions icon" width={24} height={24} />
 							<span className=" text-(length:--guide-icon-font-size)">Subscriptions</span>
-						</RectangleButton>
-						<RectangleButton className="w-full aspect-square flex flex-col justify-center items-center hover:bg-(--highlight) rounded-2xl">
+						</GuideLink>
+						<GuideLink className="w-full aspect-square flex flex-col gap-2.5 justify-center items-center hover:bg-(--highlight) rounded-2xl" href="/feed/you">
 							<Image className="dark:invert" aria-hidden src="/account_circle.svg" alt="account_circle icon" width={24} height={24} />
 							<span className=" text-(length:--guide-icon-font-size)">You</span>
-						</RectangleButton>
+						</GuideLink>
 					</div>
 			}
 		</nav>
